@@ -1,6 +1,7 @@
 package com.example.factorial;
 
 import com.example.factorial.calculator.SingleThreadedCalculator;
+import com.example.factorial.calculator.multithread.MultithreadedCalculator;
 import com.example.factorial.calculator.multithread.MultithreadedFixedWorkQueueSizeCalculator;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
@@ -21,6 +22,12 @@ public class Runner {
 
     @Benchmark
     @BenchmarkMode(Mode.SingleShotTime)
+    public static void multipleThread_singleThread() {
+        new MultithreadedFixedWorkQueueSizeCalculator(1).calculateFactorial(200000);
+    }
+
+    @Benchmark
+    @BenchmarkMode(Mode.SingleShotTime)
     public static void multipleThread_2Threads() {
         new MultithreadedFixedWorkQueueSizeCalculator(2).calculateFactorial(200000);
     }
@@ -28,7 +35,7 @@ public class Runner {
     @Benchmark
     @BenchmarkMode(Mode.SingleShotTime)
     public static void multipleThread_4Threads() {
-        new MultithreadedFixedWorkQueueSizeCalculator(10).calculateFactorial(200000);
+        new MultithreadedFixedWorkQueueSizeCalculator(4).calculateFactorial(200000);
     }
 
     @Benchmark
@@ -46,12 +53,18 @@ public class Runner {
     @Benchmark
     @BenchmarkMode(Mode.SingleShotTime)
     public static void multipleThread_4Threads_20Chunks() {
-        new MultithreadedFixedWorkQueueSizeCalculator(20).calculateFactorial(200000);
+        new MultithreadedCalculator(4, 20).calculateFactorial(200000);
     }
 
     @Benchmark
     @BenchmarkMode(Mode.SingleShotTime)
     public static void multipleThread_4Threads_50Chunks() {
-        new MultithreadedFixedWorkQueueSizeCalculator(20).calculateFactorial(200000);
+        new MultithreadedCalculator(4, 50).calculateFactorial(200000);
+    }
+
+    @Benchmark
+    @BenchmarkMode(Mode.SingleShotTime)
+    public static void multipleThread_4Threads_100Chunks() {
+        new MultithreadedCalculator(4, 100).calculateFactorial(200000);
     }
 }
